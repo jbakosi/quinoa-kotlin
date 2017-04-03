@@ -22,7 +22,7 @@ object Project : Project({
      CmakeBuildType.values().forEach{ b ->
        Compiler.values().forEach{ c ->
          MathLib.values().forEach{ m ->
-           StdLibCpp.values().forEach{ l ->
+           StdLibC.values().forEach{ l ->
              for( r in listOf( true, false ) ) {
                for( t in listOf( true, false ) ) {
                  buildType( QuinoaKotlin_Linux_Build( BuildParams( b, c, m, l, r, t ) ) )
