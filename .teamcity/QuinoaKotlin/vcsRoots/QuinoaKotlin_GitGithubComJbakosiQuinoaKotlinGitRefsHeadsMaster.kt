@@ -8,6 +8,7 @@ object QuinoaKotlin_GitGithubComJbakosiQuinoaKotlinGitRefsHeadsMaster : GitVcsRo
     extId = "QuinoaKotlin_GitGithubComJbakosiQuinoaKotlinGitRefsHeadsMaster"
     name = "git@github.com:jbakosi/quinoa-kotlin.git#refs/heads/master"
     url = "git@github.com:jbakosi/quinoa-kotlin.git"
+    branchSpec = "+:refs/heads/(*)"
     checkoutSubmodules = GitVcsRoot.CheckoutSubmodules.IGNORE
     authMethod = defaultPrivateKey {
         userName = "git"
