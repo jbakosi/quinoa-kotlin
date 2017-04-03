@@ -29,7 +29,7 @@ object Project : Project({
         BuildParams("Debug", "clang", false, false, "mkl", "libstdc++")
      )
 
-     builds.foreach{ buildType( QuinoaKotlin_Linux_Build( it ) ) }
+     builds.forEach{ buildType( QuinoaKotlin_Linux_Build( it ) ) }
 
     //buildType(QuinoaKotlin_Linux_BuildFromTmp)
 
