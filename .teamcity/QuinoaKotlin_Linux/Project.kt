@@ -15,23 +15,37 @@ object Project : Project({
     name = "Linux"
     description = "Linux builds"
 
-    template(QuinoaKotlin_Linux_Matrix)
+    template( QuinoaKotlin_Linux_Matrix )
 
-    data class BuildParams(val buildtype: String,
-                           val compiler: String,
-                           val disable_rngsse2: Boolean,
-                           val disable_testu01: Boolean,
-                           val mathlib: String,
-                           val stdlibcpp: String)
+    val allBuilds = mutableListOf< BuildParams >()
 
-     val builds = listOf(
-        BuildParams("Debug", "clang", false, false, "mkl", "libc++"),
-        BuildParams("Debug", "clang", false, false, "mkl", "libstdc++")
-     )
+    // Generate matrix with all possible combinations of build parameters,
+    // defined in package buildParams.
+    Compiler.values().forEach{ c ->
+      StdLibC.values().forEach{ l ->
+        MathLib.values().forEach{ m ->
+          CmakeBuildType.values().forEach{ b ->
+            for( r in listOf( true, false ) ) {
+              for( t in listOf( true, false ) ) {
+                allBuilds.add( BuildParams(b,c,m,l,r,t) )
+              }
+            }
+          }
+        }
+      }
+    }
 
-     builds.forEach{ buildType( QuinoaKotlin_Linux_Build( it ) ) }
+    val builds = mutableListOf< BuildParams >()
 
-    //buildType(QuinoaKotlin_Linux_BuildFromTmp)
+    // Exclude some builds
+    allBuilds.forEach{ b ->
+      if ( !(b.compiler == Compiler.gnu && b.stdlibc == StdLibC.libc)) {
+        builds.add( b );
+      }
+    }
+
+    // Generate TeamCity builds
+    builds.forEach{ buildType( QuinoaKotlin_Linux_Build(it) ) }
 
     features {
         versionedSettings {

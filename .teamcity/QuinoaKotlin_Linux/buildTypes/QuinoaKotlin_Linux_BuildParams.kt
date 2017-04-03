@@ -1,8 +1,13 @@
 package QuinoaKotlin_Linux.buildParams
 
-data class BuildParams(val buildtype: String,
-                       val compiler: String,
-                       val disable_rngsse2: Boolean,
-                       val disable_testu01: Boolean,
-                       val mathlib: String,
-                       val stdlibcpp: String)
+enum class CmakeBuildType { Debug, Release }
+enum class Compiler { clang, gnu }
+enum class MathLib { mkl, lapack }
+enum class StdLibC { libc, libstdc }
+
+data class BuildParams( val buildtype: CmakeBuildType,
+                        val compiler: Compiler,
+                        val mathlib: MathLib,
+                        val stdlibc: StdLibC,
+                        val rngsse2: Boolean,
+                        val testu01: Boolean )
