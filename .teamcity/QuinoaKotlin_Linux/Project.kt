@@ -17,21 +17,21 @@ object Project : Project({
 
     template(QuinoaKotlin_Linux_Matrix)
 
-    data class BuildParams(val buildtype: String,
-                           val compiler: String,
-                           val disable_rngsse2: Boolean,
-                           val disable_testu01: Boolean,
-                           val mathlib: String,
-                           val stdlibcpp: String)
-
-     val builds = listOf(
-        BuildParams("Debug", "clang", false, false, "mkl", "libc++"),
-        BuildParams("Debug", "clang", false, false, "mkl", "libstdc++")
-     )
-
-     builds.forEach{ buildType( QuinoaKotlin_Linux_Build( it ) ) }
-
-    //buildType(QuinoaKotlin_Linux_BuildFromTmp)
+     // Generate matrix with all possible combinations of build parameters,
+     // defined in package buildParams.
+     CmakeBuildType.values().forEach{ b ->
+       Compiler.values().forEach{ c ->
+         MathLib.values().forEach{ m ->
+           StdLibCpp.values().forEach{ l ->
+             for( r in listOf( true, false ) ) {
+               for( t in listOf( true, false ) ) {
+                 buildType( QuinoaKotlin_Linux_Build( BuildParams( b, c, m, l, r, t ) ) )
+               }
+             }
+           }
+         }
+       }
+     }
 
     features {
         versionedSettings {
