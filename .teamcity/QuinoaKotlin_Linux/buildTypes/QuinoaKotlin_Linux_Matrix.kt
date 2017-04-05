@@ -59,12 +59,4 @@ object QuinoaKotlin_Linux_Matrix : Template({
         equals("teamcity.agent.jvm.os.name", "Linux", "RQ_10")
         contains("teamcity.agent.name", "ccscs", "RQ_11")
     }
-
-    triggers {
-        vcs {
-            id = "vcsTrigger"
-            perCheckinTriggering = true
-            groupCheckinsByCommitter = true
-        }
-    }
 })

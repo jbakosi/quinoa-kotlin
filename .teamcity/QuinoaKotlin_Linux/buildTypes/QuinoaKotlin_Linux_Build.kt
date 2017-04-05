@@ -27,4 +27,12 @@ class QuinoaKotlin_Linux_Build( bp: BuildParams ) : BuildType({
         param("rngsse2", bp.rngsse2.toString())
         param("testu01", bp.testu01.toString())
     }
+
+    triggers {
+        vcs {
+            id = "vcsTrigger"
+            perCheckinTriggering = true
+            groupCheckinsByCommitter = true
+        }
+    }
 })
