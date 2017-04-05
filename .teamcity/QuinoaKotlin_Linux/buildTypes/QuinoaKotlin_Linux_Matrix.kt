@@ -4,6 +4,9 @@ import jetbrains.buildServer.configs.kotlin.v10.*
 import jetbrains.buildServer.configs.kotlin.v10.buildSteps.ScriptBuildStep
 import jetbrains.buildServer.configs.kotlin.v10.buildSteps.ScriptBuildStep.*
 import jetbrains.buildServer.configs.kotlin.v10.buildSteps.script
+import jetbrains.buildServer.configs.kotlin.v10.triggers.VcsTrigger
+import jetbrains.buildServer.configs.kotlin.v10.triggers.VcsTrigger.*
+import jetbrains.buildServer.configs.kotlin.v10.triggers.vcs
 
 object QuinoaKotlin_Linux_Matrix : Template({
     uuid = "7911341f-4c73-4cf5-b3a2-86461a4c3be0"
@@ -58,5 +61,13 @@ object QuinoaKotlin_Linux_Matrix : Template({
     requirements {
         equals("teamcity.agent.jvm.os.name", "Linux", "RQ_10")
         contains("teamcity.agent.name", "ccscs", "RQ_11")
+    }
+
+    triggers {
+        vcs {
+            id = "vcsTrigger"
+            perCheckinTriggering = true
+            groupCheckinsByCommitter = true
+        }
     }
 })
