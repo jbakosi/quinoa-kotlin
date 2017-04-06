@@ -4,6 +4,9 @@ import jetbrains.buildServer.configs.kotlin.v10.*
 import jetbrains.buildServer.configs.kotlin.v10.buildSteps.ScriptBuildStep
 import jetbrains.buildServer.configs.kotlin.v10.buildSteps.ScriptBuildStep.*
 import jetbrains.buildServer.configs.kotlin.v10.buildSteps.script
+import jetbrains.buildServer.configs.kotlin.v10.triggers.VcsTrigger
+import jetbrains.buildServer.configs.kotlin.v10.triggers.VcsTrigger.*
+import jetbrains.buildServer.configs.kotlin.v10.triggers.vcs
 
 object QuinoaKotlin_Mac_Matrix : Template({
     uuid = "bfc71567-af5a-4a29-abe4-54c2481c06bf"
@@ -41,6 +44,18 @@ object QuinoaKotlin_Mac_Matrix : Template({
                 [ %compiler% == gnu ] && port select gcc mp-gcc5 && port select mpi openmpi-gcc5-fortran
                 ../script/run_tests.sh
             """.trimIndent()
+        }
+    }
+
+    triggers {
+        vcs {
+            id = "vcsTrigger"
+            triggerRules = """
+                -:comment=[ci skip]:**
+                -:comment=[skip ci]:**
+            """.trimIndent()
+            perCheckinTriggering = true
+            groupCheckinsByCommitter = true
         }
     }
 
