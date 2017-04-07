@@ -48,4 +48,17 @@ object QuinoaKotlin_Mac_Matrix : Template({
         equals("teamcity.agent.jvm.os.name", "Mac OS X", "RQ_12")
         contains("teamcity.agent.name", "euler", "RQ_13")
     }
+
+    triggers {
+        vcs {
+            id = "vcsTrigger"
+//             triggerRules = """
+//                 +:.
+//                 -:comment=[ci skip]:**
+//                 -:comment=[skip ci]:**
+//             """.trimIndent()
+            perCheckinTriggering = true
+            groupCheckinsByCommitter = true
+        }
+    }
 })
