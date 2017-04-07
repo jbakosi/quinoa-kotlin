@@ -32,7 +32,6 @@ object QuinoaKotlin_Mac_Matrix : Template({
                 [ %compiler% == gnu ] && port select gcc mp-gcc5 && port select mpi openmpi-gcc5-fortran
                 rm -rf build && mkdir build && cd build
                 cmake -DCMAKE_CXX_COMPILER=mpicxx -DCMAKE_C_COMPILER=mpicc -DCMAKE_BUILD_TYPE=%buildtype% -DCMAKE_CXX_FLAGS=-Werror -DTPL_DIR=/Volumes/Storage/jbakosi/code/quinoa-tpl/install/%compiler%-x86_64 ../src
-                #make -j%teamcity.agent.hardware.cpuCount%
             """.trimIndent()
         }
         script {
@@ -42,7 +41,6 @@ object QuinoaKotlin_Mac_Matrix : Template({
             scriptContent = """
                 [ %compiler% == clang ] && port select clang mp-clang-3.8 && port select mpi openmpi-clang38-fortran
                 [ %compiler% == gnu ] && port select gcc mp-gcc5 && port select mpi openmpi-gcc5-fortran
-                #../script/run_tests.sh
             """.trimIndent()
         }
     }
