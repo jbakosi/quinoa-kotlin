@@ -51,7 +51,7 @@ object QuinoaKotlin_Mac_Matrix : Template({
         vcs {
             id = "vcsTrigger"
             triggerRules = """
-                +:.
+                +:**
                 -:comment=[ci skip]:**
                 -:comment=[skip ci]:**
             """.trimIndent()
