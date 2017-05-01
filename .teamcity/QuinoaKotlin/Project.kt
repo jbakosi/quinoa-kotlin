@@ -14,6 +14,7 @@ object Project : Project({
     parentId = "_Root"
     name = "Quinoa Kotlin"
 
+    vcsRoot(QuinoaKotlin_GitGithubComQuinoacomputingQuinoaTeamcityGitRefsHeadsMaster)
     vcsRoot(QuinoaKotlin_GitGithubComJbakosiQuinoaKotlinGitRefsHeadsMaster)
 
     features {
