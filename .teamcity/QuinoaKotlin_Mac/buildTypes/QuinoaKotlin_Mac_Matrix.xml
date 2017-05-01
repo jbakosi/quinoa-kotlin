@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="bfc71567-af5a-4a29-abe4-54c2481c06bf" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/10.0/project-config.xsd">
+  <name>Matrix</name>
+  <settings>
+    <parameters />
+    <build-runners>
+      <runner id="RUNNER_12" name="Verify commit" type="simpleRunner">
+        <parameters>
+          <param name="script.content" value="git verify-commit %build.vcs.number% 2&gt;&amp;1 | grep &quot;Good signature&quot;" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="use.custom.script" value="true" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_14" name="Build code" type="simpleRunner">
+        <parameters>
+          <param name="script.content"><![CDATA[[ %compiler% == clang ] && port select clang mp-clang-3.8 && port select mpi openmpi-clang38-fortran
+[ %compiler% == gnu ] && port select gcc mp-gcc5 && port select mpi openmpi-gcc5-fortran
+rm -rf build && mkdir build && cd build
+cmake -DCMAKE_CXX_COMPILER=mpicxx -DCMAKE_C_COMPILER=mpicc -DCMAKE_BUILD_TYPE=%buildtype% -DCMAKE_CXX_FLAGS=-Werror -DTPL_DIR=/Volumes/Storage/jbakosi/code/quinoa-tpl/install/%compiler%-x86_64 ../src
+#make -j%teamcity.agent.hardware.cpuCount%]]></param>
+          <param name="teamcity.step.mode" value="default" />
+          <param name="use.custom.script" value="true" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_16" name="Run tests" type="simpleRunner">
+        <parameters>
+          <param name="script.content"><![CDATA[#[ %compiler% == clang ] && port select clang mp-clang-3.8 && port select mpi openmpi-clang38-fortran
+#[ %compiler% == gnu ] && port select gcc mp-gcc5 && port select mpi openmpi-gcc5-fortran
+#../script/run_tests.sh]]></param>
+          <param name="teamcity.build.workingDir" value="build" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="use.custom.script" value="true" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="QuinoaKotlin_GitGithubComJbakosiQuinoaKotlinGitRefsHeadsMaster" />
+    </vcs-settings>
+    <requirements>
+      <equals id="RQ_12" name="teamcity.agent.jvm.os.name" value="Mac OS X" />
+      <contains id="RQ_13" name="teamcity.agent.name" value="euler" />
+    </requirements>
+    <build-triggers>
+      <build-trigger id="vcsTrigger" type="vcsTrigger">
+        <parameters>
+          <param name="branchFilter" value="+:*" />
+          <param name="groupCheckinsByCommitter" value="true" />
+          <param name="perCheckinTriggering" value="true" />
+          <param name="quietPeriodMode" value="DO_NOT_USE" />
+          <param name="triggerRules"><![CDATA[+:.
+-:comment=\[ci skip\]:**
+-:comment=\[skip ci\]:**]]></param>
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <cleanup />
+  </settings>
+</template>
+

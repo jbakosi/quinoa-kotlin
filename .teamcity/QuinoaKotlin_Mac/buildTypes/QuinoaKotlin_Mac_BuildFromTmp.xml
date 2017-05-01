@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="c70a908a-3451-47dc-96e9-da6a8f48637e" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/10.0/project-config.xsd">
+  <name>BuildFromTmp</name>
+  <description>Example build from Mac Template</description>
+  <settings ref="QuinoaKotlin_Mac_Matrix">
+    <parameters>
+      <param name="buildtype" value="Debug" />
+      <param name="compiler" value="clang" />
+    </parameters>
+    <build-runners order="" />
+    <vcs-settings />
+    <requirements />
+    <build-triggers />
+    <cleanup />
+  </settings>
+</build-type>
+
